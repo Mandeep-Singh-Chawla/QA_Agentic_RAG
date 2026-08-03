@@ -7,7 +7,7 @@ Local agentic RAG for QA teams: generate test cases, find coverage gaps, and pri
 **Requirements:** Node.js 20+ (22 recommended), a [Google AI](https://aistudio.google.com/apikey) API key.
 
 ```bash
-git clone <this-repo>
+git clone https://github.com/Mandeep-Singh-Chawla/QA_Agentic_RAG.git
 cd QA_Agentic_RAG
 cp .env.example .env
 # Set at least: GOOGLE_API_KEY=...
