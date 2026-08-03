@@ -1,181 +1,113 @@
-# QA Agentic RAG (local lite version of the enterprise diagram)
+# QA Agentic RAG
 
-This folder mirrors the attached **Enterprise Agentic RAG** architecture using your existing stack:
+Local agentic RAG for QA teams: generate test cases, find coverage gaps, and prioritize testing from Jira, Confluence, GitHub, and Xray knowledge.
 
-| Diagram (Azure / enterprise) | This local version |
-|------------------------------|--------------------|
-| JIRA / GitHub / Confluence / Xray webhooks | Files under `qa-docs/<source>/` + `POST /ingest` |
-| FastAPI webhook listener | Node HTTP server (`server.ts`) |
-| Connectors / MCP | Folder-based “connectors” per source |
-| Azure OpenAI embeddings | Gemini `gemini-embedding-001` |
-| Azure AI Search | `VECTOR_BACKEND=memory` (default) or **Qdrant** (free Docker / Cloud) |
-| LangChain orchestrator | `orchestrator.ts` (intent + routing) |
-| JIRA/GitHub/Confluence/Xray agents | `agents/sourceAgent.ts` per source |
-| Retrieval + rerank | `retrieval.ts` (similarity + Gemini lite rerank) |
-| GPT-4o reasoning | Gemini Flash structured synthesis |
-| Input/output guardrails | `guardrails.ts` |
-| Production deploy | `PRODUCTION.md`, `Dockerfile`, `docker-compose.yml` |
+## QA quick start (≈5 minutes)
 
-See **[PRODUCTION.md](./PRODUCTION.md)** for prod boot checks, Docker, TLS, and smoke tests.
+**Requirements:** Node.js 20+ (22 recommended), a [Google AI](https://aistudio.google.com/apikey) API key.
+
+```bash
+git clone <this-repo>
+cd QA_Agentic_RAG
+cp .env.example .env
+# Set at least: GOOGLE_API_KEY=...
+npm install
+npm run qa:agentic "Generate login lockout test cases"
+```
+
+Works out of the box against sample docs in `qa-docs/` (demo knowledge base).  
+For your team’s Jira/GitHub, fill the live-API section in `.env` (see below).
+
+| Goal | Command |
+|------|---------|
+| Ask a QA question (CLI) | `npm run qa:agentic "Explain login acceptance criteria"` |
+| HTTP API | `npm run qa:server` then `POST /query` |
+| LangGraph Studio | `npm run qa:studio` |
+| Docker (API + Qdrant) | fill `.env` → `npm run qa:docker:up` |
+| Smoke test (server must be up) | `npm run qa:smoke` |
+
+Production deploy notes: [`qa-agentic-rag/PRODUCTION.md`](./qa-agentic-rag/PRODUCTION.md).
 
 ## Layout
 
 ```text
-qa-docs/
-  confluence/   # PRDs
-  jira/         # stories / ACs
-  github/       # API notes
-  xray/         # existing tests / gaps
-qa-agentic-rag/
-  server.ts         # Case 1 + Case 2 HTTP API
-  cli.ts            # Case 2 from terminal
-  ingest.ts         # Case 1 pipeline
-  orchestrator.ts   # intent → route → agents → answer
-  retrieval.ts      # search + rerank
-  guardrails.ts
-  agents/
+qa-docs/            # RAG knowledge base (Jira / GitHub / Confluence / Xray)
+qa-agentic-rag/     # App code (server, orchestrator, connectors, agents)
+scripts/            # Install helpers (e.g. Qdrant Node patch)
+Dockerfile          # Production image
+docker-compose.yml  # API + Qdrant
 ```
 
-## Vector DB (memory vs Qdrant)
+Sample content under `qa-docs/` is for demos. Replace or sync with your team sources.
 
-Default is in-memory. For a free prod-like store, use **Qdrant**:
+## Live APIs (optional)
+
+| Source | Env vars |
+|--------|----------|
+| GitHub | `GITHUB_TOKEN`, `GITHUB_USER` (optional `GITHUB_REPO`) |
+| Jira / Confluence | `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, `JIRA_PROJECT_KEY` |
+| Change-impact | `DEV_REPO=owner/name`, `AUTOMATION_REPOS=owner/a,owner/b` |
+| Xray | `XRAY_CLIENT_ID`, `XRAY_CLIENT_SECRET` |
+
+Create tokens:
+1. GitHub PAT → https://github.com/settings/tokens (`public_repo` or `repo`)
+2. Atlassian API token → https://id.atlassian.com/manage-profile/security/api-tokens
 
 ```bash
-# Option A — local free (Docker)
-docker run -d --name qdrant -p 6333:6333 -p 6334:6334 qdrant/qdrant
+curl -X POST http://localhost:8787/sync          # pull live → qa-docs/*/live/
+curl -X POST http://localhost:8787/ingest        # sync + embed all
+```
 
-# Option B — Qdrant Cloud free tier: https://cloud.qdrant.io
+## Vector DB
+
+Default: in-memory. For persistence, use Qdrant:
+
+```bash
+docker run -d --name qdrant -p 6333:6333 -p 6334:6334 qdrant/qdrant
 ```
 
 ```env
 VECTOR_BACKEND=qdrant
 QDRANT_URL=http://127.0.0.1:6333
-# QDRANT_API_KEY=...          # cloud only
 QDRANT_COLLECTION=qa_agentic
 ```
 
-Then restart Studio / server and run ingest (or ask a RAG question).  
-Pinecone is not wired; Qdrant is the free path in this project.
+## What it can do
 
-## How to run (important)
+| Intent | Example |
+|--------|---------|
+| Generate test cases | `Generate login lockout test cases` |
+| Explain requirements | `Explain login acceptance criteria` |
+| Coverage gaps | `What is untested for login?` |
+| API contracts | `What status codes does login API return?` |
+| Change-impact | `Select tests to run for https://github.com/org/app/pull/123` |
+| Risk-based coverage | `Optimize test coverage using historic defects and the latest code change` |
 
-**Do not run `orchestrator.ts` directly.** It is a library module.
+## Architecture map
 
-```bash
-# CLI entrypoint
-npx tsx qa-agentic-rag/cli.ts "Generate login lockout test cases"
+| Enterprise pattern | This repo |
+|--------------------|-----------|
+| Webhooks / connectors | `qa-docs/<source>/` + `POST /ingest` / `/sync` |
+| HTTP API | `qa-agentic-rag/server.ts` |
+| Orchestrator | `orchestrator.ts` |
+| Source agents | `agents/sourceAgent.ts` |
+| Retrieval + rerank | `retrieval.ts` |
+| Guardrails | `guardrails.ts` |
+| Vector store | memory or Qdrant |
 
-# Other intents (not only test cases)
-npx tsx qa-agentic-rag/cli.ts "Explain login acceptance criteria"
-npx tsx qa-agentic-rag/cli.ts "What coverage gaps exist for login lockout?"
-npx tsx qa-agentic-rag/cli.ts "What API status codes does login return?"
+Do **not** run `orchestrator.ts` directly — use `cli.ts`, `server.ts`, or Studio.
 
-# HTTP server
-npx tsx qa-agentic-rag/server.ts
-curl -X POST http://localhost:8787/ingest
-curl -X POST http://localhost:8787/query \
-  -H 'Content-Type: application/json' \
-  -d '{"query":"Find coverage gaps for login"}'
-```
+## LangSmith (optional)
 
-## LangSmith
-
-Uses your `.env` keys. Ensure:
-
-```bash
+```env
 LANGSMITH_TRACING=true
-LANGSMITH_API_KEY=lsv2_...   # from https://smith.langchain.com
+LANGSMITH_API_KEY=...
+LANGCHAIN_PROJECT=qa-agentic-rag
 ```
 
-`tracing.ts` maps these to LangChain’s expected vars. Traces appear under project `qa-agentic-rag` (override with `LANGCHAIN_PROJECT`).
+## Still “lite”
 
-If you previously saw `403` on LangSmith, refresh the API key.
-
-## Live APIs (GitHub + Jira + Confluence + Xray)
-
-Wired for your accounts:
-
-| Source | Target | Env |
-|--------|--------|-----|
-| GitHub | `Mandeep-Singh-Chawla` | `GITHUB_TOKEN`, `GITHUB_USER` |
-| Jira | `mandeepsingh1986.atlassian.net` / `SCRUM` | `JIRA_EMAIL`, `JIRA_API_TOKEN`, `JIRA_PROJECT_KEY` |
-| Confluence | same Atlassian site | same email + token |
-| Xray | optional | `XRAY_CLIENT_ID` + `XRAY_CLIENT_SECRET` |
-
-**Create tokens:**
-1. GitHub PAT → https://github.com/settings/tokens (`public_repo` or `repo`)
-2. Atlassian API token → https://id.atlassian.com/manage-profile/security/api-tokens  
-   Email: `mandeepsingh1986@gmail.com`
-
-Then fill `GITHUB_TOKEN` and `JIRA_API_TOKEN` in `.env`.
-
-```bash
-curl -X POST http://localhost:8787/sync          # pull live → qa-docs/*/live/
-curl -X POST http://localhost:8787/ingest        # sync + embed all
-curl -X POST http://localhost:8787/ingest/jira   # one source
-```
-
-### Optimized coverage (historic defects + code change)
-
-Combines **prod/Jira defect history** with **deepeval code changes** to allocate:
-- **deep** coverage on high-risk areas  
-- **smoke / skip** on low-risk areas  
-
-Seed defects: `qa-docs/jira/defects/prod-defect-history.md` (plus live Jira Bugs when `JIRA_API_TOKEN` is set).
-
-Studio prompts:
-
-```text
-Optimize test coverage using historic prod defects and the latest deepeval code change — more tests on high risk, less on low risk
-```
-
-```text
-Select tests to run for https://github.com/confident-ai/deepeval/pull/1234
-```
-
-Tools: `optimize_test_coverage` (full budgeting) and `select_tests_for_dev_change` (lighter PR mapping).
-
-### Jira webhook → auto vector DB update
-
-When a Jira issue is **created / updated / deleted**, Jira can POST to this app; the issue is written under `qa-docs/jira/live/` and the in-memory vector store is reindexed.
-
-```bash
-# Terminal 1 — webhook receiver (required for Jira Cloud)
-npm run qa:server
-
-# Terminal 2 — expose localhost (Jira Cloud cannot reach 127.0.0.1)
-ngrok http 8787
-# Webhook URL: https://<ngrok-id>.ngrok-free.app/webhooks/jira?secret=YOUR_SECRET
-```
-
-In Jira: **Settings → System → WebHooks → Create**
-- URL: your ngrok URL above  
-- Events: Issue → created, updated, deleted  
-- Set `JIRA_WEBHOOK_SECRET` in `.env` to match `?secret=`
-
-Studio (`npm run qa:studio`) picks up webhook file changes on the **next question** via the stamp file `qa-docs/jira/live/.webhook-updated`.
-
-Simulate locally:
-
-```bash
-curl -X POST http://localhost:8787/webhooks/jira \
-  -H 'Content-Type: application/json' \
-  -d '{"webhookEvent":"jira:issue_created","issue":{"key":"SCRUM-99","fields":{"summary":"Webhook test","status":{"name":"To Do","statusCategory":{"name":"To Do"}},"issuetype":{"name":"Task"},"priority":{"name":"Medium"},"description":"Created via webhook"}}}'
-```
-
-## What it can do (intents)
-
-| Intent | Example question |
-|--------|------------------|
-| `generate_test_cases` | Generate login lockout test cases |
-| `explain_requirements` | Explain login acceptance criteria |
-| `find_coverage_gaps` | What is untested for login? |
-| `api_contract_check` | What status codes does login API return? |
-| `general_qa` | Summarize auth docs across sources |
-
-## What is still “lite”
-
-- No Azure AI Search / full Chat UI (Studio + this HTTP server)
-- Agents run sequentially (Gemini free-tier limits)
-- Xray needs Xray Cloud API keys if Test issue types are not in the project
-- Jira Cloud webhooks need a public URL (ngrok/cloudflare tunnel) while developing locally
+- No full enterprise Chat UI (Studio + HTTP API)
+- Agents run sequentially (friendly to Gemini free-tier limits)
+- Jira Cloud webhooks need a public URL (ngrok/tunnel) for local receive
+- Org SSO/RBAC is out of scope — see `PRODUCTION.md`

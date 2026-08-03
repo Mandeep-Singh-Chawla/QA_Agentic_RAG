@@ -1,12 +1,11 @@
 /**
- * Live Jira Cloud connector for:
- *   https://mandeepsingh1986.atlassian.net  (project SCRUM / "QA Testing")
+ * Live Jira Cloud connector.
  *
  * .env:
- *   JIRA_BASE_URL=https://mandeepsingh1986.atlassian.net
- *   JIRA_EMAIL=mandeepsingh1986@gmail.com
+ *   JIRA_BASE_URL=https://your-site.atlassian.net
+ *   JIRA_EMAIL=you@company.com
  *   JIRA_API_TOKEN=...   # https://id.atlassian.com/manage-profile/security/api-tokens
- *   JIRA_PROJECT_KEY=SCRUM
+ *   JIRA_PROJECT_KEY=PROJ
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -194,6 +193,15 @@ export async function listJiraIssues(opts?: {
   const { projectKey, baseUrl } = getAtlassianConfig();
   const openOnly = opts?.openOnly ?? true;
   const limit = opts?.limit ?? 50;
+  if (!projectKey) {
+    return {
+      ok: false,
+      projectKey: "",
+      baseUrl,
+      issues: [],
+      message: "Set JIRA_PROJECT_KEY in .env to list issues.",
+    };
+  }
   const jql = openOnly
     ? `project = ${projectKey} AND statusCategory != Done ORDER BY updated DESC`
     : `project = ${projectKey} ORDER BY updated DESC`;

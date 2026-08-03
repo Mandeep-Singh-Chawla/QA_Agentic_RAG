@@ -1,6 +1,6 @@
 /**
  * Build a catalog of automated tests from QA automation repos
- * (Selenium / RestAssured / Appium under Mandeep-Singh-Chawla).
+ * listed in AUTOMATION_REPOS (Selenium / RestAssured / Appium / etc.).
  */
 import fs from "node:fs";
 import path from "node:path";

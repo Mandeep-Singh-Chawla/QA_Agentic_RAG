@@ -1,6 +1,5 @@
 {
   "graphs": {
-    "rag_agent": "./rag/ragagentServer.ts:graph",
     "qa_agentic": "./qa-agentic-rag/langgraphServer.ts:graph"
   },
   "env": ".env"

@@ -5,7 +5,7 @@ export function getAtlassianConfig() {
   const baseUrl = (
     process.env.JIRA_BASE_URL ??
     process.env.ATLASSIAN_BASE_URL ??
-    "https://mandeepsingh1986.atlassian.net"
+    ""
   )
     .trim()
     .replace(/\/$/, "");
@@ -19,13 +19,13 @@ export function getAtlassianConfig() {
     process.env.ATLASSIAN_API_TOKEN ??
     ""
   ).trim();
-  const projectKey = (process.env.JIRA_PROJECT_KEY ?? "SCRUM").trim();
+  const projectKey = (process.env.JIRA_PROJECT_KEY ?? "").trim();
   return { baseUrl, email, token, projectKey };
 }
 
 export function isAtlassianConfigured(): boolean {
-  const { email, token } = getAtlassianConfig();
-  return Boolean(email && token);
+  const { baseUrl, email, token } = getAtlassianConfig();
+  return Boolean(baseUrl && email && token);
 }
 
 export function atlassianAuthHeader(): string {

@@ -1,5 +1,5 @@
 /**
- * Fetch code changes from the configured DEV repo (default: confident-ai/deepeval).
+ * Fetch code changes from the configured DEV repo (DEV_REPO=owner/name).
  * Supports PR URL/number or latest commits on the default branch.
  * Caches successful fetches so rate-limit failures can fall back to disk.
  */
@@ -268,10 +268,30 @@ export async function fetchDevChangeSet(opts?: {
   /** If PR fetch fails (e.g. rate limit), try latest default-branch commits. */
   fallbackToLatest?: boolean;
 }): Promise<DevChangeSet> {
-  const defaults = parseOwnerRepo(DEV_REPO);
   const parsed = parsePrRef(opts?.prOrUrl);
-  const owner = parsed.owner ?? defaults.owner;
-  const repo = parsed.repo ?? defaults.repo;
+  let owner = parsed.owner;
+  let repo = parsed.repo;
+  if ((!owner || !repo) && DEV_REPO) {
+    try {
+      const defaults = parseOwnerRepo(DEV_REPO);
+      owner = owner ?? defaults.owner;
+      repo = repo ?? defaults.repo;
+    } catch {
+      /* handled below */
+    }
+  }
+  if (!owner || !repo) {
+    return {
+      ok: false,
+      message:
+        "Set DEV_REPO=owner/name in .env, or pass a GitHub PR URL / owner/repo#123.",
+      repo: DEV_REPO || "",
+      refLabel: "",
+      htmlUrl: "",
+      files: [],
+      summary: "",
+    };
+  }
   const maxFiles = opts?.maxFiles ?? 40;
   const fallbackToLatest = opts?.fallbackToLatest !== false;
   const octokit = getOctokit();

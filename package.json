@@ -1,7 +1,7 @@
 {
-  "name": "langchainframework",
+  "name": "qa-agentic-rag",
   "version": "1.0.0",
-  "description": "",
+  "description": "Agentic RAG assistant for QA test design, coverage gaps, and change-impact analysis",
   "main": "index.js",
   "scripts": {
     "test": "npm run qa:smoke",
@@ -10,7 +10,6 @@
     "qa:server": "tsx qa-agentic-rag/server.ts",
     "qa:server:prod": "QA_ENV=production NODE_ENV=production tsx qa-agentic-rag/server.ts",
     "qa:smoke": "tsx qa-agentic-rag/eval/prodSmoke.ts",
-    "qa:simple": "tsx qaTestCaseAgent.ts",
     "qa:studio": "npx @langchain/langgraph-cli dev",
     "qa:docker:up": "docker compose up --build -d",
     "qa:docker:down": "docker compose down"

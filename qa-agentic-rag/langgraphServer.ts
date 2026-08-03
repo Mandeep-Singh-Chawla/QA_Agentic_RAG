@@ -81,7 +81,7 @@ const listJiraIssuesTool = tool(
   {
     name: "list_jira_issues",
     description:
-      "List live Jira issues from project SCRUM (mandeepsingh1986.atlassian.net). Use when the user asks for open Jira IDs, tickets, backlog items, or stories. Requires JIRA_API_TOKEN. Never invent LOGIN-* sample IDs.",
+      "List live Jira issues from the configured JIRA_PROJECT_KEY. Use when the user asks for open Jira IDs, tickets, backlog items, or stories. Requires Jira credentials in .env. Never invent sample issue IDs.",
     schema: z.object({
       openOnly: z
         .boolean()
@@ -136,7 +136,7 @@ const listGithubReposTool = tool(
   {
     name: "list_github_repos",
     description:
-      "List live GitHub repositories for the configured user (default Mandeep-Singh-Chawla). Use when the user asks to share/list/show their GitHub repos, automation frameworks, or repositories. Works without GITHUB_TOKEN for public repos.",
+      "List live GitHub repositories for GITHUB_USER. Use when the user asks to share/list/show their GitHub repos, automation frameworks, or repositories. Works without GITHUB_TOKEN for public repos.",
     schema: z.object({
       automationOnly: z
         .boolean()
@@ -299,14 +299,17 @@ const agent = createAgent({
   ],
   systemPrompt: `You are an enterprise QA assistant backed by Agentic RAG across Jira, GitHub, Confluence, and Xray.
 
-Dev application repo: ${DEV_REPO}
-QA automation repos: Mandeep-Singh-Chawla Selenium / RestAssured / Appium frameworks.
+Dev application repo: ${DEV_REPO || "(set DEV_REPO in .env)"}
+QA automation repos: ${
+    process.env.AUTOMATION_REPOS?.trim() ||
+    "(set AUTOMATION_REPOS in .env)"
+  }
 
 All tools enforce input guardrails (QA allowlist, injection block, secret/PII redaction).
 If a tool returns blocked=true, tell the user the request was blocked and do not invent an answer.
 
 Tool choice:
-- Test cases / scenarios for a specific Jira key (e.g. SCRUM-8) → generate_tests_for_jira_issue FIRST. Pass the issue key. Then present the returned testCases clearly.
+- Test cases / scenarios for a specific Jira key (e.g. PROJ-8) → generate_tests_for_jira_issue FIRST. Pass the issue key. Then present the returned testCases clearly.
 - Optimize coverage / historic defects + code change → optimize_test_coverage.
 - Simple "which automated tests for this PR/diff" → select_tests_for_dev_change.
 - Open/list Jira IDs (not test-case gen) → list_jira_issues.

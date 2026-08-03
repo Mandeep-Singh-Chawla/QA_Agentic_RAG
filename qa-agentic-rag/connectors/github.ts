@@ -1,5 +1,5 @@
 /**
- * Live GitHub connector for user Mandeep-Singh-Chawla.
+ * Live GitHub connector for the configured GITHUB_USER.
  * Public repo listing works WITHOUT a token.
  * GITHUB_TOKEN unlocks private repos + higher rate limits.
  */
@@ -8,14 +8,11 @@ import path from "node:path";
 import { Octokit } from "@octokit/rest";
 import { QA_DOCS_DIR } from "../config";
 
-const DEFAULT_USER = "Mandeep-Singh-Chawla";
-
 const AUTOMATION_PREFERRED = [
-  "Selenium-Framework",
-  "RestAssured-Framework-and-Important-Utilities",
-  "Appium-Framework",
+  "Selenium",
+  "RestAssured",
+  "Appium",
   "JaCoCo",
-  "Google-sheet-Integration",
   "ExtentReports",
   "TestNG",
   "Cucumber",
@@ -44,7 +41,7 @@ function getToken(): string | undefined {
 }
 
 export function getGithubUser(): string {
-  return process.env.GITHUB_USER?.trim() || DEFAULT_USER;
+  return process.env.GITHUB_USER?.trim() || "";
 }
 
 function getSingleRepo(): { owner: string; repo: string } | null {
@@ -54,9 +51,9 @@ function getSingleRepo(): { owner: string; repo: string } | null {
   return { owner, repo };
 }
 
-/** Always "configured" — public listing works without token. */
+/** True when GITHUB_USER or GITHUB_REPO is set (public listing needs a user). */
 export function isGithubConfigured(): boolean {
-  return true;
+  return Boolean(getGithubUser() || process.env.GITHUB_REPO?.trim());
 }
 
 export function getOctokit(): Octokit {
@@ -104,6 +101,16 @@ export async function listGithubRepos(opts?: {
   const user = getGithubUser();
   const octokit = getOctokit();
   const limit = opts?.limit ?? 50;
+
+  if (!user) {
+    return {
+      ok: false,
+      user: "",
+      repos: [],
+      message:
+        "Set GITHUB_USER in .env (GitHub username or org login) to list repositories.",
+    };
+  }
 
   try {
     const collected: GithubRepoSummary[] = [];

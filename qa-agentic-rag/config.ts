@@ -107,18 +107,10 @@ export const SOURCE_LLM_ENABLED =
 export const MAX_SOURCES = Number(process.env.QA_MAX_SOURCES ?? 2);
 
 /** Dev application repo used for change-impact / risk-based test selection. */
-export const DEV_REPO =
-  process.env.DEV_REPO?.trim() || "confident-ai/deepeval";
+export const DEV_REPO = process.env.DEV_REPO?.trim() || "";
 
 /** Automation repos (owner/name) used as the regression candidate pool. */
-export const AUTOMATION_REPOS: string[] = (
-  process.env.AUTOMATION_REPOS?.trim() ||
-  [
-    "Mandeep-Singh-Chawla/Selenium-Framework",
-    "Mandeep-Singh-Chawla/RestAssured-Framework-and-Important-Utilities",
-    "Mandeep-Singh-Chawla/Appium-Framework",
-  ].join(",")
-)
+export const AUTOMATION_REPOS: string[] = (process.env.AUTOMATION_REPOS ?? "")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);

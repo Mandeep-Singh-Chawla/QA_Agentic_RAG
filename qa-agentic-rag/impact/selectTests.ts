@@ -1,6 +1,6 @@
 /**
  * Change-impact test selection:
- * DEV_REPO (confident-ai/deepeval) diff → select automated TCs from automation repos.
+ * DEV_REPO diff → select automated TCs from AUTOMATION_REPOS.
  */
 import { createAgent, initChatModel } from "langchain";
 import z from "zod";
