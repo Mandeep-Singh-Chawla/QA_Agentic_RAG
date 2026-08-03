@@ -4,13 +4,14 @@ Local agentic RAG for QA teams: generate test cases, find coverage gaps, and pri
 
 ## QA quick start (≈5 minutes)
 
-**Requirements:** Node.js 20+ (22 recommended), a [Google AI](https://aistudio.google.com/apikey) API key.
+**Requirements:** Node.js 20+ (22 recommended) and a Google AI API key  
+→ create one here: https://aistudio.google.com/apikey
 
 ```bash
 git clone https://github.com/Mandeep-Singh-Chawla/QA_Agentic_RAG.git
 cd QA_Agentic_RAG
 cp .env.example .env
-# Set at least: GOOGLE_API_KEY=...
+# Set at least: GOOGLE_API_KEY=...  (from the link above)
 npm install
 npm run qa:agentic "Generate login lockout test cases"
 ```
@@ -27,6 +28,19 @@ For your team’s Jira/GitHub, fill the live-API section in `.env` (see below).
 | Smoke test (server must be up) | `npm run qa:smoke` |
 
 Production deploy notes: [`qa-agentic-rag/PRODUCTION.md`](./qa-agentic-rag/PRODUCTION.md).
+
+## API keys & tokens (direct links)
+
+| Needed for | Env var(s) | Create here |
+|------------|------------|-------------|
+| **Required** — Gemini LLM + embeddings | `GOOGLE_API_KEY` | https://aistudio.google.com/apikey |
+| Optional — LangSmith tracing | `LANGSMITH_API_KEY` | https://smith.langchain.com/settings |
+| Optional — GitHub sync / PR diffs | `GITHUB_TOKEN` | https://github.com/settings/tokens *(classic; `public_repo` or `repo`)* |
+| Optional — Jira / Confluence | `JIRA_API_TOKEN` | https://id.atlassian.com/manage-profile/security/api-tokens |
+| Optional — Xray Cloud | `XRAY_CLIENT_ID`, `XRAY_CLIENT_SECRET` | Jira → **Apps** → **Xray** → **API Keys** ([Xray Cloud docs](https://docs.getxray.app/display/XRAYCLOUD/Authentication+-+REST+API+v2)) |
+| Optional — Qdrant Cloud | `QDRANT_URL`, `QDRANT_API_KEY` | https://cloud.qdrant.io |
+
+Also set (no key page): `GITHUB_USER`, `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_PROJECT_KEY`, and optionally `DEV_REPO` / `AUTOMATION_REPOS`.
 
 ## Layout
 
@@ -49,10 +63,6 @@ Sample content under `qa-docs/` is for demos. Replace or sync with your team sou
 | Change-impact | `DEV_REPO=owner/name`, `AUTOMATION_REPOS=owner/a,owner/b` |
 | Xray | `XRAY_CLIENT_ID`, `XRAY_CLIENT_SECRET` |
 
-Create tokens:
-1. GitHub PAT → https://github.com/settings/tokens (`public_repo` or `repo`)
-2. Atlassian API token → https://id.atlassian.com/manage-profile/security/api-tokens
-
 ```bash
 curl -X POST http://localhost:8787/sync          # pull live → qa-docs/*/live/
 curl -X POST http://localhost:8787/ingest        # sync + embed all
@@ -60,15 +70,15 @@ curl -X POST http://localhost:8787/ingest        # sync + embed all
 
 ## Vector DB
 
-Default: in-memory. For persistence, use Qdrant:
+Default: in-memory. For persistence:
 
-```bash
-docker run -d --name qdrant -p 6333:6333 -p 6334:6334 qdrant/qdrant
-```
+- **Local Docker:** `docker run -d --name qdrant -p 6333:6333 -p 6334:6334 qdrant/qdrant`
+- **Qdrant Cloud (free tier):** https://cloud.qdrant.io → copy cluster URL + API key
 
 ```env
 VECTOR_BACKEND=qdrant
 QDRANT_URL=http://127.0.0.1:6333
+# QDRANT_API_KEY=...   # cloud only
 QDRANT_COLLECTION=qa_agentic
 ```
 
@@ -98,6 +108,8 @@ QDRANT_COLLECTION=qa_agentic
 Do **not** run `orchestrator.ts` directly — use `cli.ts`, `server.ts`, or Studio.
 
 ## LangSmith (optional)
+
+Create an API key: https://smith.langchain.com/settings
 
 ```env
 LANGSMITH_TRACING=true
