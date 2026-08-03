@@ -84,7 +84,10 @@ async function searchIssues(jql: string, maxResults = 50): Promise<{
     };
   }
 
-  const data = await res.json();
+  const data = (await res.json()) as {
+    issues?: unknown[];
+    values?: unknown[];
+  };
   return {
     ok: true,
     issues: data.issues ?? data.values ?? [],

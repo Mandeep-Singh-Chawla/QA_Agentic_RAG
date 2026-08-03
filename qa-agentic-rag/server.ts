@@ -341,13 +341,13 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "POST" && ingestMatch) {
       if (!requireAuth(req, res, url.pathname, requestId)) return;
       const source = ingestMatch[1] as SourceName;
-      const live = await syncLiveSources([source]);
+      // ingestSource → ingestAll already runs syncLiveSources for this source
       const stats = await ingestSource(source);
       return send(
         req,
         res,
         200,
-        { ok: true, source, liveSync: live, ...stats, requestId },
+        { ok: true, source, ...stats, requestId },
         requestId
       );
     }

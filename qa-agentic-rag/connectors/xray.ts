@@ -82,7 +82,9 @@ async function syncViaXrayCloud(): Promise<{
     };
   }
 
-  const data = await gqlRes.json();
+  const data = (await gqlRes.json()) as {
+    data?: { getTests?: { results?: any[] } };
+  };
   const results = data?.data?.getTests?.results ?? [];
   const written: string[] = [];
 
@@ -152,7 +154,10 @@ async function syncViaJiraTestIssues(): Promise<{
     };
   }
 
-  const data = await res.json();
+  const data = (await res.json()) as {
+    issues?: any[];
+    values?: any[];
+  };
   const issues = data.issues ?? data.values ?? [];
   if (!issues.length) {
     return {

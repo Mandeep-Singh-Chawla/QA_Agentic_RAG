@@ -140,7 +140,7 @@ async function fetchJiraBugs(maxResults = 50): Promise<HistoricDefect[]> {
       .filter((i) => /bug|defect|incident/i.test(i.issuetype + i.summary))
       .map((i) => jiraToDefect(i));
   }
-  const data = await res.json();
+  const data = (await res.json()) as { issues?: any[] };
   const issues = data.issues ?? [];
   return issues.map((raw: any) => {
     const f = raw.fields ?? {};

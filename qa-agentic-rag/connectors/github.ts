@@ -129,13 +129,13 @@ export async function listGithubRepos(opts?: {
           name: r.name,
           full_name: r.full_name,
           html_url: r.html_url,
-          description: r.description,
-          language: r.language,
+          description: r.description ?? null,
+          language: r.language ?? null,
           topics: r.topics ?? [],
           private: r.private,
           fork: r.fork,
-          stargazers_count: r.stargazers_count,
-          updated_at: r.updated_at,
+          stargazers_count: r.stargazers_count ?? 0,
+          updated_at: r.updated_at ?? null,
         });
       }
       if (res.data.length < 100) break;

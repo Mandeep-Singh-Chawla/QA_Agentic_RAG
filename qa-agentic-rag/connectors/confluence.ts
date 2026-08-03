@@ -69,7 +69,7 @@ export async function syncConfluenceToDocs(): Promise<{
     };
   }
 
-  const data = await res.json();
+  const data = (await res.json()) as { results?: any[] };
   const pages = data.results ?? [];
 
   for (const page of pages) {

@@ -47,7 +47,7 @@ export async function withRetry<T>(
 }
 
 export async function fetchWithRetry(
-  input: RequestInfo | URL,
+  input: string | URL | Request,
   init?: RequestInit,
   opts?: RetryOpts
 ): Promise<Response> {

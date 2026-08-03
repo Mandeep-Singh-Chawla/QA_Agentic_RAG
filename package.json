@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run qa:smoke",
+    "typecheck": "tsc --noEmit",
     "postinstall": "node scripts/patch-qdrant-undici.mjs",
     "qa:agentic": "tsx qa-agentic-rag/cli.ts",
     "qa:server": "tsx qa-agentic-rag/server.ts",

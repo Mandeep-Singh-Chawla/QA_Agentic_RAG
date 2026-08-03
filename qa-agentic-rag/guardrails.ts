@@ -461,8 +461,9 @@ export function checkOutputGuardrails(
 
 /** Apply output guards + deep redaction to an orchestrator-shaped answer. */
 export function guardOrchestratorAnswer<
+  TIntent extends string,
   T extends {
-    intent: string;
+    intent: TIntent;
     answer: {
       narrative: string;
       docsUsed: string[];
