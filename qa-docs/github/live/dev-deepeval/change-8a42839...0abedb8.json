@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "message": "Compared latest commits (3 files)",
+  "repo": "confident-ai/deepeval",
+  "refLabel": "8a42839...0abedb8",
+  "htmlUrl": "https://github.com/confident-ai/deepeval/compare/8a4283903d92a5e32303f3b48a70b4198ed5d3be...0abedb84c7db59873125e3c8e66199fa874c4878",
+  "files": [
+    {
+      "filename": "CITATION.cff",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "patch": "@@ -6,7 +6,7 @@ authors:\n   - family-names: Vongthongsri\n     given-names: Kritin\n title: deepeval\n-version: 4.1.4\n+version: 4.1.5\n date-released: \"2026-07-16\"\n url: https://confident-ai.com\n repository-code: https://github.com/confident-ai/deepeval"
+    },
+    {
+      "filename": "deepeval/_version.py",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "patch": "@@ -1 +1 @@\n-__version__: str = \"4.1.4\"\n+__version__: str = \"4.1.5\""
+    },
+    {
+      "filename": "pyproject.toml",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "patch": "@@ -1,6 +1,6 @@\n [tool.poetry]\n name = \"deepeval\"\n-version = \"4.1.4\"\n+version = \"4.1.5\"\n description = \"The LLM Evaluation Framework\"\n authors = [\"Jeffrey Ip <jeffreyip@confident-ai.com>\"]\n license = \"Apache-2.0\""
+    }
+  ],
+  "summary": "# Dev change set — confident-ai/deepeval @ 8a42839...0abedb8\n\n- Message: new release\n- URL: https://github.com/confident-ai/deepeval/compare/8a4283903d92a5e32303f3b48a70b4198ed5d3be...0abedb84c7db59873125e3c8e66199fa874c4878\n- Files changed: 3\n\n## Files\n- `CITATION.cff` (modified, +1/-1)\n- `deepeval/_version.py` (modified, +1/-1)\n- `pyproject.toml` (modified, +1/-1)\n\n## Patches (truncated)\n### CITATION.cff\n```diff\n@@ -6,7 +6,7 @@ authors:\n   - family-names: Vongthongsri\n     given-names: Kritin\n title: deepeval\n-version: 4.1.4\n+version: 4.1.5\n date-released: \"2026-07-16\"\n url: https://confident-ai.com\n repository-code: https://github.com/confident-ai/deepeval\n```\n\n### deepeval/_version.py\n```diff\n@@ -1 +1 @@\n-__version__: str = \"4.1.4\"\n+__version__: str = \"4.1.5\"\n```\n\n### pyproject.toml\n```diff\n@@ -1,6 +1,6 @@\n [tool.poetry]\n name = \"deepeval\"\n-version = \"4.1.4\"\n+version = \"4.1.5\"\n description = \"The LLM Evaluation Framework\"\n authors = [\"Jeffrey Ip <jeffreyip@confident-ai.com>\"]\n license = \"Apache-2.0\"\n```\n",
+  "cachedAt": "2026-08-01T17:56:07.578Z"
+}

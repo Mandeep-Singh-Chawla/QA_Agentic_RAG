@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "message": "Compared latest commits (2 files)",
+  "repo": "confident-ai/deepeval",
+  "refLabel": "0abedb8...6b1ffe1",
+  "htmlUrl": "https://github.com/confident-ai/deepeval/compare/0abedb84c7db59873125e3c8e66199fa874c4878...6b1ffe1e090b5559549c2bad8f46445208d8a8dc",
+  "files": [
+    {
+      "filename": "typescript/package-lock.json",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "changes": 4,
+      "patch": "@@ -1,12 +1,12 @@\n {\n   \"name\": \"deepeval\",\n-  \"version\": \"0.1.31\",\n+  \"version\": \"0.1.32\",\n   \"lockfileVersion\": 3,\n   \"requires\": true,\n   \"packages\": {\n     \"\": {\n       \"name\": \"deepeval\",\n-      \"version\": \"0.1.31\",\n+      \"version\": \"0.1.32\",\n       \"dependencies\": {\n         \"@opentelemetry/api\": \"^1.9.0\",\n         \"@opentelemetry/exporter-trace-otlp-grpc\": \"^0.207.0\","
+    },
+    {
+      "filename": "typescript/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"deepeval\",\n-  \"version\": \"0.1.31\",\n+  \"version\": \"0.1.32\",\n   \"description\": \"The LLM Evaluation Framework for TypeScript\",\n   \"repository\": {\n     \"type\": \"git\","
+    }
+  ],
+  "summary": "# Dev change set — confident-ai/deepeval @ 0abedb8...6b1ffe1\n\n- Message: update typescript\n- URL: https://github.com/confident-ai/deepeval/compare/0abedb84c7db59873125e3c8e66199fa874c4878...6b1ffe1e090b5559549c2bad8f46445208d8a8dc\n- Files changed: 2\n\n## Files\n- `typescript/package-lock.json` (modified, +2/-2)\n- `typescript/package.json` (modified, +1/-1)\n\n## Patches (truncated)\n### typescript/package-lock.json\n```diff\n@@ -1,12 +1,12 @@\n {\n   \"name\": \"deepeval\",\n-  \"version\": \"0.1.31\",\n+  \"version\": \"0.1.32\",\n   \"lockfileVersion\": 3,\n   \"requires\": true,\n   \"packages\": {\n     \"\": {\n       \"name\": \"deepeval\",\n-      \"version\": \"0.1.31\",\n+      \"version\": \"0.1.32\",\n       \"dependencies\": {\n         \"@opentelemetry/api\": \"^1.9.0\",\n         \"@opentelemetry/exporter-trace-otlp-grpc\": \"^0.207.0\",\n```\n\n### typescript/package.json\n```diff\n@@ -1,6 +1,6 @@\n {\n   \"name\": \"deepeval\",\n-  \"version\": \"0.1.31\",\n+  \"version\": \"0.1.32\",\n   \"description\": \"The LLM Evaluation Framework for TypeScript\",\n   \"repository\": {\n     \"type\": \"git\",\n```\n",
+  "cachedAt": "2026-08-02T18:16:48.382Z"
+}

@@ -1,0 +1,55 @@
+# Production-style stack: API + Qdrant
+# Usage:
+#   export $(grep -v '^#' .env | xargs)   # or use env_file
+#   docker compose up --build -d
+#
+# Required env (see .env.example): QA_API_TOKEN, JIRA_WEBHOOK_SECRET,
+# GOOGLE_API_KEY, QA_CORS_ORIGINS, Jira/GitHub tokens as needed.
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.13.2
+    restart: unless-stopped
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  api:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${QA_AGENTIC_PORT:-8787}:8787"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      QA_ENV: production
+      VECTOR_BACKEND: qdrant
+      QDRANT_URL: http://qdrant:6333
+      QA_AGENTIC_PORT: "8787"
+      QA_REQUIRE_AUTH: "true"
+      QA_ALLOW_INSECURE_WEBHOOK: "false"
+      QA_REQUIRE_GROUNDING: "true"
+    depends_on:
+      - qdrant
+    volumes:
+      - qa_docs_data:/app/qa-docs
+      - qa_output_data:/app/qa-agentic-rag/qa-output
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8787/readyz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+
+volumes:
+  qdrant_data:
+  qa_docs_data:
+  qa_output_data:

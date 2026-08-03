@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.*
+!.env.example
+qa-docs/cache/
+**/qa-output/
+**/.DS_Store
+*.log

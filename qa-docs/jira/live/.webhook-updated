@@ -1,0 +1,6 @@
+{
+  "at": "2026-08-02T18:24:04.896Z",
+  "event": "jira:issue_created",
+  "key": "SCRUM-9",
+  "action": "upserted"
+}
