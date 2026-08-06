@@ -209,7 +209,7 @@ async function refineWithLlm(
       model,
       tools: [],
       systemPrompt: `You select automated regression tests for a developer code change.
-Dev repo is an LLM evaluation framework (deepeval). Automation repos are Java Selenium/RestAssured/Appium.
+DEV_REPO is the application under test; AUTOMATION_REPOS hold the automated test suites (any stack: Selenium, Playwright, RestAssured, Appium, pytest, etc.).
 Pick ONLY from the candidate list. Prefer a small high-signal set (3–10). Explain briefly.`,
       responseFormat: llmSchema,
     });
@@ -248,7 +248,7 @@ Pick ONLY from the candidate list. Prefer a small high-signal set (3–10). Expl
 }
 
 /**
- * Main entry: fetch deepeval change → catalog automation tests → select + run commands.
+ * Main entry: fetch DEV_REPO change → catalog AUTOMATION_REPOS tests → select + run commands.
  */
 export async function selectTestsForDevChange(opts?: {
   prOrUrl?: string;

@@ -285,9 +285,8 @@ function buildRunCommands(
 ): string[] {
   if (docsOnly) {
     return [
-      `# Docs/version-only change — no Java automation suite\n` +
-        `cd <clone ${DEV_REPO}> && python -m pip install -e . && ` +
-        `python -c "import deepeval; print(getattr(deepeval, '__version__', 'ok'))"`,
+      `# Docs/version-only change — skip full automation suite\n` +
+        `# Verify ${DEV_REPO || "DEV_REPO"} builds/docs as your team normally does, then run a small smoke set if needed.`,
     ];
   }
   const byRepo = new Map<string, string[]>();

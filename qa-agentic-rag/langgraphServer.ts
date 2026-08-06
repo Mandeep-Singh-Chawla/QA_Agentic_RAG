@@ -234,7 +234,7 @@ const selectTestsForDevChangeTool = tool(
         .string()
         .optional()
         .describe(
-          "PR number or full GitHub PR URL. If omitted, uses the latest commit(s) on the deepeval default branch."
+          "PR number or full GitHub PR URL. If omitted, uses the latest commit(s) on the DEV_REPO default branch."
         ),
       maxTests: z
         .number()

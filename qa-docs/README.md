@@ -9,8 +9,8 @@ qa-docs/
     defects/    # committed demo historic defects
     sample/     # optional stubs (skipped by ingest)
     live/       # runtime sync (gitignored) — from Jira API / webhooks
-  github/       # API notes, repo summaries
-    live/       # runtime sync (gitignored) — repos, catalogs, change cache
+  github/       # see github/README.md — seed notes + live/ sync (gitignored)
+                # Team sets DEV_REPO + AUTOMATION_REPOS in .env (not in git)
   xray/         # existing test packs / gaps
   cache/        # embedding cache (gitignored)
 ```

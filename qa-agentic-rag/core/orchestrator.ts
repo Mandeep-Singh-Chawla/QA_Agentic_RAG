@@ -460,7 +460,7 @@ async function runOrchestratorCore(
     };
   }
 
-  // Fast path: deepeval code-change → select automation tests
+  // Fast path: DEV_REPO code-change → select automation tests
   if (isDevImpactQuery(query)) {
     const impact = await selectTestsForDevChange({
       prOrUrl: extractPrRef(query),
