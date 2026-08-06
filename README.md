@@ -29,6 +29,30 @@ For your team’s Jira/GitHub, fill the live-API section in `.env` (see below).
 
 Production deploy notes: [`qa-agentic-rag/PRODUCTION.md`](./qa-agentic-rag/PRODUCTION.md).
 
+## Configure your team’s GitHub repos (new joiners)
+
+**Do not put repo names under `qa-docs/github/`.** Put them in **root `.env`** (copy from `.env.example`):
+
+```env
+GITHUB_USER=your-org-or-username
+GITHUB_TOKEN=your_pat_here
+
+# Dev application under test (PRs / code changes)
+DEV_REPO=your-org/payments-api
+
+# QA automation repos (comma-separated)
+AUTOMATION_REPOS=your-org/ui-tests,your-org/api-tests
+```
+
+Then start the server and sync:
+
+```bash
+npm run qa:server
+curl -X POST http://localhost:8787/sync
+```
+
+That creates local `qa-docs/github/live/` (gitignored). More detail: [`qa-docs/github/README.md`](./qa-docs/github/README.md).
+
 ## API keys & tokens (direct links)
 
 | Needed for | Env var(s) | Create here |
