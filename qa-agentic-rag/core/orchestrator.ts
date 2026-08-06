@@ -527,7 +527,7 @@ async function runOrchestratorCore(
     };
   }
 
-  // Fast path: list open Jira issues via live API (never use sample LOGIN-241.md)
+  // Fast path: list open Jira issues via live API (not seed markdown)
   if (isJiraIssueListQuery(query)) {
     const openOnly = !/\b(all|closed|done|resolved)\b/i.test(query);
     const listed = await listJiraIssues({ openOnly, limit: 50 });
@@ -575,7 +575,7 @@ async function runOrchestratorCore(
         gaps: listed.ok
           ? []
           : [
-              "Live Jira API unavailable. Set JIRA_API_TOKEN in .env (Atlassian API token). Do not trust sample docs like LOGIN-241 for live board status.",
+              "Live Jira API unavailable. Set JIRA_API_TOKEN in .env (Atlassian API token). Do not use seed markdown for live board status.",
             ],
         testCases: [],
         suggestedAutomationCandidates: [],
