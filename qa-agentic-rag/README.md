@@ -27,9 +27,8 @@ retrieval.ts        # Search + optional rerank
 guardrails.ts       # Input/output safety, auth, audit
 vectorStore.ts      # memory | qdrant
 config.ts           # Env / paths
-agents/             # Per-source agents
+agents/             # All AI agents (RAG source, Jira TC, coverage, test selection)
 connectors/         # Jira, GitHub, Confluence, Xray, defects, …
-impact/             # Test-case gen, change-impact, coverage optimize
 eval/               # Smoke checks
 lib/                # Logger, retry, HTTP security, embed cache
 ```

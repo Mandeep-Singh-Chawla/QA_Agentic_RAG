@@ -1,6 +1,6 @@
 /**
- * Optimal / risk-based test coverage:
- * historic prod defects + current dev code changes
+ * Coverage Optimizer Agent — risk-based test coverage planning.
+ * Historic prod defects + current dev code changes
  * → deep coverage on high-risk areas, smoke/skip on low-risk.
  */
 import { createAgent, initChatModel } from "langchain";
@@ -24,7 +24,7 @@ import {
 import {
   selectTestsForDevChange,
   type SelectedTest,
-} from "./selectTests";
+} from "./testSelectionAgent";
 
 export type CoverageLevel = "deep" | "moderate" | "smoke" | "skip";
 

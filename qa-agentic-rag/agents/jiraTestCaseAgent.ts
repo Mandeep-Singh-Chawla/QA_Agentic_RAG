@@ -1,5 +1,5 @@
 /**
- * Generate test cases for a specific Jira issue key.
+ * Jira Test Case Agent — generate test cases for a Jira issue key.
  * Prefers live Jira API → qa-docs/jira/live/<KEY>.md → Qdrant vector chunks.
  */
 import { createAgent, initChatModel } from "langchain";

@@ -100,7 +100,7 @@ QDRANT_COLLECTION=qa_agentic
 | Webhooks / connectors | `qa-docs/<source>/` + `POST /ingest` / `/sync` |
 | HTTP API | `qa-agentic-rag/server.ts` |
 | Orchestrator | `orchestrator.ts` |
-| Source agents | `agents/sourceAgent.ts` |
+| AI agents | `agents/` (`ragSourceAgent`, `jiraTestCaseAgent`, `coverageOptimizerAgent`, `testSelectionAgent`) |
 | Retrieval + rerank | `retrieval.ts` |
 | Guardrails | `guardrails.ts` |
 | Vector store | memory or Qdrant |

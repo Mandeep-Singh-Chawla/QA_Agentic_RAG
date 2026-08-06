@@ -20,9 +20,9 @@ import {
   formatJiraIssuesMarkdown,
   listJiraIssues,
 } from "./connectors/jira";
-import { optimizeTestCoverage } from "./impact/optimizeCoverage";
-import { generateTestCasesForJiraKey } from "./impact/jiraTestCases";
-import { selectTestsForDevChange } from "./impact/selectTests";
+import { optimizeTestCoverage } from "./agents/coverageOptimizerAgent";
+import { generateTestCasesForJiraKey } from "./agents/jiraTestCaseAgent";
+import { selectTestsForDevChange } from "./agents/testSelectionAgent";
 import { guardToolInput, redactDeep } from "./guardrails";
 
 function blockedTool(input: ReturnType<typeof guardToolInput>) {

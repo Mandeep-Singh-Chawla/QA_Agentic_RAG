@@ -1,5 +1,5 @@
 /**
- * Change-impact test selection:
+ * Test Selection Agent — change-impact selection of automated tests.
  * DEV_REPO diff → select automated TCs from AUTOMATION_REPOS.
  */
 import { createAgent, initChatModel } from "langchain";

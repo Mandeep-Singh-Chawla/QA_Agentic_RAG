@@ -1,5 +1,6 @@
 /**
- * Specialized source agents (diagram: JIRA / GitHub / Confluence / Xray agents).
+ * RAG Source Agent — retrieves (and optionally summarizes) context from one
+ * knowledge source: Jira / GitHub / Confluence / Xray.
  * Default: retrieve-only (no LLM) to stay under Gemini free-tier quotas.
  * Set QA_SOURCE_LLM=true to summarize with the lite model.
  */
