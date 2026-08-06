@@ -6,12 +6,12 @@
  * Open the Studio URL printed in the terminal (usually):
  *   https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024
  */
-import "./tracing";
+import "./core/tracing";
 import { createAgent, tool } from "langchain";
 import z from "zod";
-import { ensureIngested } from "./ingest";
-import { runOrchestrator } from "./orchestrator";
-import { DEV_REPO, LITE_MODEL } from "./config";
+import { ensureIngested } from "./rag/ingest";
+import { runOrchestrator } from "./core/orchestrator";
+import { DEV_REPO, LITE_MODEL } from "./core/config";
 import {
   formatReposMarkdown,
   listGithubRepos,
@@ -23,7 +23,7 @@ import {
 import { optimizeTestCoverage } from "./agents/coverageOptimizerAgent";
 import { generateTestCasesForJiraKey } from "./agents/jiraTestCaseAgent";
 import { selectTestsForDevChange } from "./agents/testSelectionAgent";
-import { guardToolInput, redactDeep } from "./guardrails";
+import { guardToolInput, redactDeep } from "./core/guardrails";
 
 function blockedTool(input: ReturnType<typeof guardToolInput>) {
   return JSON.stringify(

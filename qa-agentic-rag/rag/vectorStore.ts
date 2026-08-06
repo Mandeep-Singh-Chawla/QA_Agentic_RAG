@@ -16,7 +16,7 @@ import {
   QDRANT_COLLECTION,
   QDRANT_URL,
   VECTOR_BACKEND,
-} from "./config";
+} from "../core/config";
 
 export type QaVectorStore = VectorStore;
 

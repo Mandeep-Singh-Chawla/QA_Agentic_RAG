@@ -11,35 +11,35 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { Document } from "@langchain/core/documents";
 import type { VectorStore } from "@langchain/core/vectorstores";
-import { makeEmbeddings, addDocumentsCached } from "./lib/vectorCache";
+import { makeEmbeddings, addDocumentsCached } from "../lib/vectorCache";
 import {
   QA_CACHE_DIR,
   QA_DOCS_DIR,
   SOURCES,
   VECTOR_BACKEND,
   type SourceName,
-} from "./config";
+} from "../core/config";
 import {
   createFreshVectorStore,
   openVectorStore,
   vectorBackendLabel,
   type QaVectorStore,
 } from "./vectorStore";
-import { syncGithubToDocs } from "./connectors/github";
-import { syncAutomationCatalogToDocs } from "./connectors/automationCatalog";
-import { syncDefectsToDocs } from "./connectors/defects";
-import { syncDevChangeToDocs } from "./connectors/devChange";
+import { syncGithubToDocs } from "../connectors/github";
+import { syncAutomationCatalogToDocs } from "../connectors/automationCatalog";
+import { syncDefectsToDocs } from "../connectors/defects";
+import { syncDevChangeToDocs } from "../connectors/devChange";
 import {
   applyJiraWebhookPayload,
   isJiraConfigured,
   syncJiraToDocs,
   type JiraWebhookResult,
-} from "./connectors/jira";
+} from "../connectors/jira";
 import {
   isConfluenceConfigured,
   syncConfluenceToDocs,
-} from "./connectors/confluence";
-import { syncXrayToDocs } from "./connectors/xray";
+} from "../connectors/confluence";
+import { syncXrayToDocs } from "../connectors/xray";
 
 const TEXT_EXTS = new Set([".md", ".markdown", ".txt"]);
 const SKIP = new Set(["readme.md", ".ds_store"]);

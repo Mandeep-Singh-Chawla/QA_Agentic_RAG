@@ -1,6 +1,6 @@
 import type http from "node:http";
 import crypto from "node:crypto";
-import { CORS_ORIGINS, IS_PRODUCTION } from "../config";
+import { CORS_ORIGINS, IS_PRODUCTION } from "../core/config";
 
 export function newRequestId(req: http.IncomingMessage): string {
   const incoming = req.headers["x-request-id"];

@@ -6,7 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { Octokit } from "@octokit/rest";
-import { QA_DOCS_DIR } from "../config";
+import { QA_DOCS_DIR } from "../core/config";
 
 const AUTOMATION_PREFERRED = [
   "Selenium",

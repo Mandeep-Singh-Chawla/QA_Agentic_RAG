@@ -18,7 +18,7 @@ import {
   SOURCES,
   type SourceName,
 } from "./config";
-import { runSourceAgent, type AgentResult } from "./agents/ragSourceAgent";
+import { runSourceAgent, type AgentResult } from "../agents/ragSourceAgent";
 import {
   checkInputGuardrails,
   guardOrchestratorAnswer,
@@ -26,18 +26,18 @@ import {
 import {
   formatReposMarkdown,
   listGithubRepos,
-} from "./connectors/github";
+} from "../connectors/github";
 import {
   formatJiraIssuesMarkdown,
   listJiraIssues,
-} from "./connectors/jira";
-import { optimizeTestCoverage } from "./agents/coverageOptimizerAgent";
+} from "../connectors/jira";
+import { optimizeTestCoverage } from "../agents/coverageOptimizerAgent";
 import {
   extractJiraIssueKey,
   generateTestCasesForJiraKey,
   isJiraTestCaseQuery,
-} from "./agents/jiraTestCaseAgent";
-import { selectTestsForDevChange } from "./agents/testSelectionAgent";
+} from "../agents/jiraTestCaseAgent";
+import { selectTestsForDevChange } from "../agents/testSelectionAgent";
 
 const routeSchema = z.object({
   intent: z.enum([

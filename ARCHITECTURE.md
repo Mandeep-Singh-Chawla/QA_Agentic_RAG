@@ -15,10 +15,11 @@ Shareable architecture for leaders and QA teams.
 | Knowledge base | `qa-docs/` (Jira, GitHub, Confluence, Xray) |
 | Embeddings | **Gemini** `gemini-embedding-001` |
 | Vector database | **Qdrant** |
-| Orchestrator | LangChain — `orchestrator.ts` / `langgraphServer.ts` |
+| Orchestrator | LangChain — `core/orchestrator.ts` / `langgraphServer.ts` |
+| RAG pipeline | `rag/` (ingest, retrieval, vectorStore) |
 | LLM reasoning | **Gemini Flash** (`QA_CHAT_MODEL`) |
 | Chat UI | **LangSmith Studio** |
-| Guardrails | `guardrails.ts` (input + output) |
+| Guardrails | `core/guardrails.ts` (input + output) |
 | Observability | **LangSmith** (`LANGSMITH_API_KEY`) |
 
 ---

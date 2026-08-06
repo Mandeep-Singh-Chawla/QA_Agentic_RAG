@@ -5,7 +5,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { DEV_REPO, QA_DOCS_DIR } from "../config";
+import { DEV_REPO, QA_DOCS_DIR } from "../core/config";
 import { getOctokit, parseOwnerRepo } from "./github";
 
 export type ChangedFile = {

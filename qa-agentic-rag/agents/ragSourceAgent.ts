@@ -10,12 +10,12 @@ import {
   LITE_MODEL,
   SOURCE_LLM_ENABLED,
   type SourceName,
-} from "../config";
+} from "../core/config";
 import {
   chunksToContext,
   retrieveForSource,
   type RetrievedChunk,
-} from "../retrieval";
+} from "../rag/retrieval";
 
 export type AgentResult = {
   agent: SourceName;

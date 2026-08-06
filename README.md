@@ -99,13 +99,13 @@ QDRANT_COLLECTION=qa_agentic
 |--------------------|-----------|
 | Webhooks / connectors | `qa-docs/<source>/` + `POST /ingest` / `/sync` |
 | HTTP API | `qa-agentic-rag/server.ts` |
-| Orchestrator | `orchestrator.ts` |
+| Orchestrator | `core/orchestrator.ts` |
 | AI agents | `agents/` (`ragSourceAgent`, `jiraTestCaseAgent`, `coverageOptimizerAgent`, `testSelectionAgent`) |
-| Retrieval + rerank | `retrieval.ts` |
-| Guardrails | `guardrails.ts` |
+| RAG pipeline | `rag/` (ingest, retrieval, vectorStore) |
+| Guardrails | `core/guardrails.ts` |
 | Vector store | memory or Qdrant |
 
-Do **not** run `orchestrator.ts` directly — use `cli.ts`, `server.ts`, or Studio.
+Do **not** run `core/orchestrator.ts` directly — use `cli.ts`, `server.ts`, or Studio.
 
 ## LangSmith (optional)
 

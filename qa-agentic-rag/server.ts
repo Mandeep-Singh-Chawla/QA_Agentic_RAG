@@ -7,7 +7,7 @@
  * - POST /sync            → pull live APIs
  * - POST /query           → guardrails → orchestrator
  */
-import "./tracing";
+import "./core/tracing";
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
@@ -19,22 +19,22 @@ import {
   QDRANT_URL,
   VECTOR_BACKEND,
   type SourceName,
-} from "./config";
+} from "./core/config";
 import {
   checkApiAuth,
   checkInputGuardrails,
   checkRateLimit,
   checkWebhookSecret,
   redactDeep,
-} from "./guardrails";
+} from "./core/guardrails";
 import {
   ensureIngested,
   ingestAll,
   ingestSource,
   processJiraWebhook,
   syncLiveSources,
-} from "./ingest";
-import { runOrchestrator } from "./orchestrator";
+} from "./rag/ingest";
+import { runOrchestrator } from "./core/orchestrator";
 import { corsAllows, newRequestId, securityHeaders } from "./lib/httpSecurity";
 import { log } from "./lib/logger";
 

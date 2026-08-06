@@ -4,12 +4,12 @@
  *   npx tsx qa-agentic-rag/cli.ts "Generate login lockout test cases"
  *   npx tsx qa-agentic-rag/cli.ts "What coverage gaps exist for login?"
  *
- * Do NOT run orchestrator.ts directly — this file (or server.ts) is the entrypoint.
+ * Do NOT run core/orchestrator.ts directly — this file (or server.ts) is the entrypoint.
  */
-import "./tracing";
-import { ensureIngested } from "./ingest";
-import { checkInputGuardrails, redactDeep } from "./guardrails";
-import { runOrchestrator } from "./orchestrator";
+import "./core/tracing";
+import { ensureIngested } from "./rag/ingest";
+import { checkInputGuardrails, redactDeep } from "./core/guardrails";
+import { runOrchestrator } from "./core/orchestrator";
 
 const query =
   process.argv.slice(2).join(" ").trim() ||

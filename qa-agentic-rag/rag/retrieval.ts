@@ -5,8 +5,8 @@
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import type { VectorStore } from "@langchain/core/vectorstores";
 import path from "node:path";
-import type { SourceName } from "./config";
-import { RERANK_ENABLED, RERANK_MODEL } from "./config";
+import type { SourceName } from "../core/config";
+import { RERANK_ENABLED, RERANK_MODEL } from "../core/config";
 
 export type RetrievedChunk = {
   content: string;

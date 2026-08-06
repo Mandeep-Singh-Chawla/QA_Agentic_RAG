@@ -2,8 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-/** Package root (this folder). */
-export const PKG_DIR = path.dirname(fileURLToPath(import.meta.url));
+/** Package root (`qa-agentic-rag/`), not this `core/` folder. */
+export const PKG_DIR = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  ".."
+);
 
 /** production | development (QA_ENV wins, else NODE_ENV). */
 export const QA_ENV = (

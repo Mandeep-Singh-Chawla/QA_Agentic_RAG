@@ -5,7 +5,7 @@
  */
 import { createAgent, initChatModel } from "langchain";
 import z from "zod";
-import { AUTOMATION_REPOS, DEV_REPO, LITE_MODEL } from "../config";
+import { AUTOMATION_REPOS, DEV_REPO, LITE_MODEL } from "../core/config";
 import {
   buildAutomationCatalog,
   syncAutomationCatalogToDocs,

@@ -13,24 +13,20 @@ Start from the **repo root** (see root [README](../README.md) for the 5-minute q
 | Studio | `npm run qa:studio` |
 | Production notes | [PRODUCTION.md](./PRODUCTION.md) |
 
-Do **not** run `orchestrator.ts` directly.
+Do **not** run `core/orchestrator.ts` directly.
 
 ## Package layout
 
 ```text
-server.ts           # HTTP API (health, ingest, sync, webhooks, query)
-cli.ts              # Terminal orchestrator entry
-langgraphServer.ts  # LangGraph Studio graph
-orchestrator.ts     # Intent → route → agents → answer
-ingest.ts           # Load docs, embed, index
-retrieval.ts        # Search + optional rerank
-guardrails.ts       # Input/output safety, auth, audit
-vectorStore.ts      # memory | qdrant
-config.ts           # Env / paths
-agents/             # All AI agents (RAG source, Jira TC, coverage, test selection)
+server.ts           # HTTP API entry
+cli.ts              # Terminal entry
+langgraphServer.ts  # LangGraph Studio graph entry
+core/               # config, tracing, guardrails, orchestrator
+rag/                # ingest, retrieval, vector store
+agents/             # AI agents (RAG source, Jira TC, coverage, test selection)
 connectors/         # Jira, GitHub, Confluence, Xray, defects, …
-eval/               # Smoke checks
 lib/                # Logger, retry, HTTP security, embed cache
+eval/               # Smoke checks
 ```
 
 ## Config

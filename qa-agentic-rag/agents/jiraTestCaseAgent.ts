@@ -4,11 +4,11 @@
  */
 import { createAgent, initChatModel } from "langchain";
 import z from "zod";
-import { CHAT_MODEL } from "../config";
+import { CHAT_MODEL } from "../core/config";
 import { fetchJiraIssueByKey } from "../connectors/jira";
 import { getAtlassianConfig } from "../connectors/atlassianAuth";
-import { ensureIngested } from "../ingest";
-import { chunksToContext, retrieveForSource } from "../retrieval";
+import { ensureIngested } from "../rag/ingest";
+import { chunksToContext, retrieveForSource } from "../rag/retrieval";
 
 const testCaseSchema = z.object({
   id: z.string(),
