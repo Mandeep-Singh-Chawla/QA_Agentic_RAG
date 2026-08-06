@@ -1,13 +1,21 @@
 node_modules
 .git
 .env
-*.md
-qa-output
-**/qa-output
-**/cache
-agent-transcripts
-.cursor
+.env.*
+*.log
 **/.DS_Store
-rag
-agent*.ts
-qaTestCaseAgent.ts
+
+# Local/runtime artifacts
+**/qa-output
+qa-docs/cache
+qa-docs/jira/live
+qa-docs/github/live
+
+# Repo docs not needed in the image (keep qa-docs seed *.md for RAG)
+/README.md
+/ARCHITECTURE.md
+/docs
+qa-agentic-rag/README.md
+qa-agentic-rag/PRODUCTION.md
+.cursor
+agent-transcripts

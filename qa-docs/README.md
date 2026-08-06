@@ -4,17 +4,22 @@ Knowledge base ingested by `qa-agentic-rag`. Organized by enterprise source:
 
 ```text
 qa-docs/
-  confluence/   # PRDs, wiki pages
+  confluence/   # PRDs, wiki pages (seed + synced)
   jira/         # stories, acceptance criteria, defects
-  github/       # API notes, repo summaries, change caches
+    defects/    # committed demo historic defects
+    sample/     # optional stubs (skipped by ingest)
+    live/       # runtime sync (gitignored) — from Jira API / webhooks
+  github/       # API notes, repo summaries
+    live/       # runtime sync (gitignored) — repos, catalogs, change cache
   xray/         # existing test packs / gaps
-  cache/        # embedding cache (auto-generated, gitignored)
+  cache/        # embedding cache (gitignored)
 ```
 
 ## Supported formats
 `.md`, `.markdown`, `.txt`, `.pdf`
 
 ## Notes
-- Sample files here are **demo data** for trying the agent. Sync live sources with `POST /sync` or replace with your team docs.
+- Seed markdown under `confluence/`, `github/*.md` (non-live), `jira/defects/`, and `xray/` is **demo data** for trying the agent.
+- `jira/live/` and `github/live/` are **generated at runtime** (`POST /sync`, webhooks, connectors). They are gitignored — run sync locally after clone.
 - Use the agent via `npm run qa:agentic` / `qa:server` / `qa:studio` from the repo root (see root README).
 - Delete `qa-docs/cache/*.json` after editing source files so embeddings refresh.

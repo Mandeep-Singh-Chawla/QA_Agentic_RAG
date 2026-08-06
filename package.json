@@ -2,7 +2,7 @@
   "name": "qa-agentic-rag",
   "version": "1.0.0",
   "description": "Agentic RAG assistant for QA test design, coverage gaps, and change-impact analysis",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "npm run qa:smoke",
     "typecheck": "tsc --noEmit",
@@ -20,14 +20,11 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@langchain/anthropic": "^1.0.0",
     "@langchain/community": "^1.0.2",
     "@langchain/core": "^1.0.4",
     "@langchain/google-genai": "^2.2.0",
     "@langchain/langgraph": "^1.0.2",
     "@langchain/langgraph-cli": "^1.0.3",
-    "@langchain/mcp-adapters": "^1.0.0",
-    "@langchain/openai": "^1.0.0",
     "@langchain/qdrant": "^1.0.3",
     "@langchain/textsplitters": "^1.0.0",
     "@octokit/rest": "^22.0.1",
@@ -35,15 +32,10 @@
     "@types/node": "24.10.0",
     "dotenv": "^16.4.5",
     "langchain": "^1.0.3",
-    "mammoth": "^1.11.0",
     "pdf-parse": "^1.1.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "undici": "^7.29.0",
     "zod": "^3.25.76"
-  },
-  "devDependencies": {
-    "@types/pdfkit": "^0.17.6",
-    "pdfkit": "^0.19.1"
   }
 }

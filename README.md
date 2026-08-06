@@ -52,7 +52,7 @@ Dockerfile          # Production image
 docker-compose.yml  # API + Qdrant
 ```
 
-Sample content under `qa-docs/` is for demos. Replace or sync with your team sources.
+Seed markdown under `qa-docs/` is for demos. `qa-docs/*/live/` is runtime sync output (gitignored) — recreate with `POST /sync`.
 
 ## Live APIs (optional)
 

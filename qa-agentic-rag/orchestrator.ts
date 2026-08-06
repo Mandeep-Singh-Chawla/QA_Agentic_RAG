@@ -501,7 +501,7 @@ async function runOrchestratorCore(
           citations: [
             impact.changeUrl,
             "github/live/automation-test-catalog.md",
-            "github/live/dev-deepeval/latest-change.md",
+            "github/live/dev-change/latest-change.md",
           ],
         },
       ],

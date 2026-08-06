@@ -2,7 +2,13 @@ node_modules/
 .env
 .env.*
 !.env.example
-qa-docs/cache/
-**/qa-output/
 **/.DS_Store
 *.log
+
+# Runtime / generated
+qa-docs/cache/
+**/qa-output/
+
+# Live sync caches (recreated by POST /sync, webhooks, connectors)
+qa-docs/jira/live/
+qa-docs/github/live/

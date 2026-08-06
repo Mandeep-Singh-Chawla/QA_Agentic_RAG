@@ -54,9 +54,15 @@ function rateLimitHint(): string {
 }
 
 function cacheDir(): string {
-  const dir = path.join(QA_DOCS_DIR, "github", "live", "dev-deepeval");
+  // Generic cache for DEV_REPO diffs (not tied to a specific demo repo name).
+  const dir = path.join(QA_DOCS_DIR, "github", "live", "dev-change");
   fs.mkdirSync(dir, { recursive: true });
   return dir;
+}
+
+/** Legacy demo path — still read as fallback after rename to dev-change. */
+function legacyCacheDir(): string {
+  return path.join(QA_DOCS_DIR, "github", "live", "dev-deepeval");
 }
 
 function cacheJsonPath(label: string): string {
@@ -106,10 +112,17 @@ function readJsonCache(file: string): DevChangeSet | null {
 
 function loadCachedChange(prNumber?: number): DevChangeSet | null {
   if (prNumber) {
-    const hit = readJsonCache(cacheJsonPath(`PR_${prNumber}`));
+    const hit =
+      readJsonCache(cacheJsonPath(`PR_${prNumber}`)) ??
+      readJsonCache(
+        path.join(legacyCacheDir(), `change-PR_${prNumber}.json`)
+      );
     if (hit) return hit;
   }
-  return readJsonCache(path.join(cacheDir(), "latest-change.json"));
+  return (
+    readJsonCache(path.join(cacheDir(), "latest-change.json")) ??
+    readJsonCache(path.join(legacyCacheDir(), "latest-change.json"))
+  );
 }
 
 function truncatePatch(patch?: string, max = 1200): string | undefined {
